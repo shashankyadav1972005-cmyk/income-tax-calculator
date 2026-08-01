@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Income Tax Calculator</title>
+</head>
+<body>
+
+    <h2>Income Tax Calculator</h2>
+
+    <label>Enter Annual Income:</label>
+    <input type="number" id="income">
+    <button onclick="calculateTax()">Calculate Tax</button>
+
+    <h3 id="result"></h3>
+
+    <script>
+        function calculateTax() {
+            let income = parseFloat(document.getElementById("income").value);
+            let tax = 0;
+
+            if (income <= 250000) {
+                tax = 0;
+            } 
+            else if (income <= 500000) {
+                tax = (income - 250000) * 0.05;
+            } 
+            else if (income <= 1000000) {
+                tax = 12500 + (income - 500000) * 0.20;
+            } 
+            else {
+                tax = 112500 + (income - 1000000) * 0.30;
+            }
+
+            document.getElementById("result").innerHTML =
+                "Income = ₹" + income + "<br>Income Tax = ₹" + tax;
+        }
+    </script>
+
+</body>
+</html>
