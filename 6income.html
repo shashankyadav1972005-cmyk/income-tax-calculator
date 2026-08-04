@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Income Tax Calculator</title>
+
+<style>
+
+body {
+    margin:0;
+    font-family: Arial;
+    background:#f5f6f8;
+}
+
+/* HEADER WHITE */
+.header {
+    background:white;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.header img {
+    height:40px;
+}
+
+/* BLUE NAV */
+.nav {
+    background:#2d3e8b;
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+    padding:10px 15px;
+    color:#6b7280;
+}
+
+/* MAIN */
+.container {
+    padding:15px;
+}
+
+/* TITLE */
+.title {
+    font-size:28px;
+    font-weight:bold;
+    color:#2d3e8b;
+}
+
+/* DISCLAIMER */
+.disclaimer {
+    border:2px solid #2d3e8b;
+    padding:10px;
+    border-radius:8px;
+    display:inline-block;
+    margin-top:10px;
+}
+
+/* INFO TEXT */
+.info {
+    color:#1d4ed8;
+    margin:15px 0;
+}
+
+/* CARD */
+.card {
+    background:white;
+    border-radius:10px;
+    padding:15px;
+    border:1px solid #e5e7eb;
+}
+
+/* INPUT */
+input, select {
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #d1d5db;
+    font-size:16px;
+}
+
+/* BUTTON */
+button {
+    width:100%;
+    padding:12px;
+    background:#2d3e8b;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+}
+
+/* RESULT BOX */
+.result-box {
+    margin-top:15px;
+}
+
+.result-card {
+    background:white;
+    border:2px solid #c7d2fe;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.result-card b {
+    color:#2d3e8b;
+}
+
+/* FLOATING BUTTON */
+.chatbot {
+    position:fixed;
+    bottom:20px;
+    right:15px;
+    text-align:center;
+}
+
+.chatbot img {
+    width:80px;
+}
+
+.chatbot span {
+    display:block;
+    background:#e5e7eb;
+    padding:6px 12px;
+    border-radius:20px;
+    margin-top:5px;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg">
+</div>
+
+<!-- NAV -->
+<div class="nav">
+    <span>☰</span>
+    <span>Department Officials</span>
+    <span>🔍</span>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+    Home > Tax Information & Services
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+<div class="title">Income Tax Calculator</div>
+
+<div class="disclaimer">⚠ Disclaimer</div>
+
+<div class="info">
+    ℹ As per Income-tax Act, 1961 (Amended by Finance Act, 2026)
+</div>
+
+<div class="card">
+
+<label>Assessment year *</label>
+<select>
+    <option>2026-27</option>
+</select>
+
+<label>Tax payer *</label>
+<select>
+    <option>Select</option>
+</select>
+
+<label>Net taxable income *</label>
+<input type="number" id="income">
+
+<button onclick="calc()">Calculate</button>
+
+</div>
+
+<div id="result" class="result-box"></div>
+
+</div>
+
+<!-- FLOATING BOT -->
+<div class="chatbot">
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
+    <span>Kar Saathi</span>
+</div>
+
+<script>
+function calc(){
+let income = parseFloat(document.getElementById("income").value);
+    let tax = 0;
+    let html = "";
+
+    function slab(amount, rate) {
+        let t = amount * rate;
+        tax += t;
+        html += `<div class="card">₹${amount} × ${rate*100}% = ₹${t.toFixed(0)}</div>`;
+    }
+
+    let remaining = income;
+
+    if (remaining > 2400000) {
+        slab(remaining - 2400000, 0.30);
+        remaining = 2400000;
+    }
+    if (remaining > 2000000) {
+        slab(remaining - 2000000, 0.25);
+        remaining = 2000000;
+    }
+    if (remaining > 1600000) {
+        slab(remaining - 1600000, 0.20);
+        remaining = 1600000;
+    }
+    if (remaining > 1200000) {
+        slab(remaining - 1200000, 0.15);
+        remaining = 1200000;
+    }
+    if (remaining > 800000) {
+        slab(remaining - 800000, 0.10);
+        remaining = 800000;
+    }
+    if (remaining > 400000) {
+        slab(remaining - 400000, 0.05);
+        remaining = 400000;
+    }
+ html += `<div class="card total">Total Tax = ₹${tax.toFixed(0)}</div>`;
+
+    document.getElementById("result").innerHTML = html;
+
+document.getElementById("result").innerHTML = `
+<div class="result-card"><b>Income tax</b><br><br>${tax.toFixed(0)}</div>
+<div class="result-card"><b>Surcharge</b><br><br>0</div>
+<div class="result-card"><b>Health and education Cess</b><br><br>${cess.toFixed(0)}</div>
+<div class="result-card"><b>Total tax liability</b><br><br>${total.toFixed(0)}</div>
+`;
+
+}
+</script>
+
+</body>
+</html>
